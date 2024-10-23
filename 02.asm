@@ -1,23 +1,25 @@
-section .data:
-	input db "Patryk Wojnarowski$"
+org 100h
 
-section .text:
-	org 0x100
+; print string
+mov AH, 0x09
+mov DX, input
+int 0x21
 
-start:
-	mov DL, [input + 5]
-	int 0x21
+; newline
+mov AH, 0x02
+mov DL, 0xA
+int 0x21
 
-	; newline
-	mov AH, 0x02
-	mov DL, 0xA
-	int 0x21
+; $ terminate on 4th character
+mov byte [input + 3], '$'
 
-	; write
-	mov DL, [input + 5]
-	int 0x21
+; print again
+mov AH, 0x09
+mov DX, input
+int 0x21
 
-end:
-	mov AH, 0x0
-	int 0x21
+; end
+mov AH, 0x0
+int 0x21
 
+input db "Patryk Wojnarowski$"
